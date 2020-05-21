@@ -20,6 +20,23 @@ template<typename T, typename U> ostream& operator<<(ostream& o, const map<T, U>
 
 int main() {
   ios::sync_with_stdio(0); cin.tie(0);
+  int n; cin >> n;
 
+  int ans = 0, last;
+  vector<int> A;
+  for(int i = 0; i < n; ++i) {
+    int a; cin >> a;
+    if(a == 1) {
+      if(ans != 0) {
+        A.push_back(last);
+      }
+      ans++;
+    }
+    last = a;
+  }
+
+  cout << ans << endl;
+  for(auto x : A) cout << x << " ";
+  cout << last << endl;
 }
 

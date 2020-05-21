@@ -1,0 +1,81 @@
+1)
+    a)  To translate this into modular arithmatic, we would take each value mod 10^m. For m = 1, we would mod the result by 10, which gives us the last digit of any number.
+    
+    b)  Each value of n could be up to one billion. With at most 10000 test cases, this could potentially be 10000000000000 operations, which is not at all possible.
+    
+    c)  Let f(A, n) be a function to raise a matrix A to the power n. When n = 0, return the identity matrix of appropriate dimensions (in our case 2). 
+        Otherwise, if n is odd, return f(A, n/2)*f(A, n/2)*A. If n is even, then return f(A, n/2)*f(A, n/2). At each step, we mod our 
+        matrix entries by our modulus, 10^m.
+    
+    d)  To compute this sequence using matrix multiplication, consider the two matricies:
+
+        A : 0 1       F : f(0) = a
+            1 1           f(1) = b
+
+        F gives the initial sequence (the base cases), while each application of A gives the next value in the sequence. Therefore, compute A^n * F, using fast matrix exponentiation,
+        and then the top row in A^n * F will give the output of f(n).
+
+
+2)  
+    a)  The simplest way to solve this problem using an array prime[i] would be to loop from 1 to n, with a second array P of size 100000 and a counter. If we encounter a 
+        prime i such that prime[i] and prime[i+2] are both true, then we increment our counter and set P[cnt] = i. Code fragment could look like:
+          int cnt = 0;
+          for(int i = 2; i <= 20000000; ++i) {
+            if(prime[i] && prime[i+2]) {
+              ++cnt;
+              P[cnt] = i;
+            }
+          }
+        After, we can read in the input one at a time and simply output P at the given value.
+
+    b)  To compute the prime array, I would use a sieve. It could look something like:
+          //our prime array is initialized to true
+          for(int i = 2; i <= 20000000; ++i) {
+            if(prime[i]) {
+              for(int j = 2*i; j <= 20000000; j += i) prime[j] = false;
+            }
+          }
+
+    c)  The initial size of our array is 20000000 entries. However, we only care about determining if a number is prime, so we could use a vector containing only prime numbers.
+        Then, if we wish to determine if a number is prime, we can perform a binary search on this array to see if a given number is in our array. If it is, then that number
+        is prime. Else it is not.
+    
+    d)  The sieve runs in O(n*log(n)) time. If we store only prime numbers in a separate array and must therefore do a binary search to determine if a number is prime,
+        then the complexity of this step is also O(n*log(n)). Therefore, the overall complexity of the algorithm is O(n*log(n)).
+
+
+3)  
+    a)  This problem gives us the grammar rules that define a language, and it asks us to determine if a given string belongs to the language.
+        Each grammar rule would constitute its own function, and each function would return a boolean value indicating if the string satisfies the given grammar rule.
+        I would first split my strings into words, and have a variable i that denotes which word I am currently considering. Then, the input to each function would take
+        a single variable i.
+
+    b)  I would have a set that contains all nouns, call the set Noun. Then, given some word, I would see if that word is in the set. If it is, then the word is a noun,
+        so we can return true. Else we must return false. The code snippet could look like:
+        
+        set<string> Noun = {"tom", "jerry", "goofy", "mickey", "jimmy", "dog", "cat", "mouse" };
+        bool isNoun(int i) {
+          return Noun.count(words[i]); \\here, words is an array containing all the words in our string
+        }
+
+    c)  isActor(int& i) {
+          if(isNoun(i)) {++i; return true; }
+          
+          if(!isArticle(i)) return false;
+          ++i;
+          if(!isNoun(i)) return false;
+
+          ++i;
+          return true;
+        }
+
+   d)   isAction(int& i) {
+          if(!isActionList(i)) return false;
+
+          if(!isVerb(i)) return false;
+          ++i;
+          
+          return isActionList(i);
+        }  
+    
+

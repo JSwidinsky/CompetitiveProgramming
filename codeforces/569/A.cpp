@@ -21,5 +21,15 @@ template<typename T, typename U> ostream& operator<<(ostream& o, const map<T, U>
 int main() {
   ios::sync_with_stdio(0); cin.tie(0);
 
+  int t,s,q; cin >> t >> s >> q;
+  int downloaded = s;
+
+  int ans = 0;
+  while(s < t) {
+    s *= q;
+    ++ans;
+  }
+
+  cout << ans << endl;
 }
 

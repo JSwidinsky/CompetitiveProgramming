@@ -20,6 +20,23 @@ template<typename T, typename U> ostream& operator<<(ostream& o, const map<T, U>
 
 int main() {
   ios::sync_with_stdio(0); cin.tie(0);
+  int n; cin >> n;
+  
+  vector<int> A(n), seen(100005, 0);
+  for(int& x : A) { cin >> x; seen[x] = 1; }
+
+  int ptr = 1;
+  set<int> S;
+  for(int i = 0; i < n; ++i) {
+    if((!seen[A[i]] || !S.count(A[i])) && A[i] <= n) { cout << A[i] << " "; seen[A[i]] = 1; S.insert(A[i]); }
+    else {
+      while(seen[ptr] && ptr <= n) ++ptr; 
+      cout << ptr << " ";
+      seen[ptr] = 1;
+      S.insert(ptr);
+    }
+  }
+  cout << endl;
 
 }
 

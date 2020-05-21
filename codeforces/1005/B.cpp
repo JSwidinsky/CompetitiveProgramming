@@ -20,6 +20,13 @@ template<typename T, typename U> ostream& operator<<(ostream& o, const map<T, U>
 
 int main() {
   ios::sync_with_stdio(0); cin.tie(0);
+  string s, t; cin >> s >> t;
 
+  int S = s.length()-1, T = t.length()-1;
+  while(s[S] == t[T] && S >= 0 && T >= 0) {
+    --S; --T;
+  }
+
+  cout << S+T+2 << endl;
 }
 
